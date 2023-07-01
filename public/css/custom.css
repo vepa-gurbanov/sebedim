@@ -1,0 +1,9 @@
+.cursor-pointer {
+    cursor: pointer;
+}
+.splide__arrows span:hover {
+    color: #4287f5;
+}
+button.splide__pagination__page.is-active {
+    background: #B4E900;
+}
