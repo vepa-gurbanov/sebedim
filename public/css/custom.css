@@ -5,5 +5,30 @@
     color: #4287f5;
 }
 button.splide__pagination__page.is-active {
-    background: #B4E900;
+    background: #f5900c;
+}
+.category {
+    display: flex;
+    justify-content: space-between;
+}
+
+.hover-dropend {
+
+}
+.c-d-menu {
+    position: relative;
+    border-radius: 10px;
+    box-shadow:0 1rem 3rem rgba(0,0,0,.175)!important;
+    min-width: 35rem;
+    min-height: 25rem;
+}
+.category:hover {
+    cursor: pointer;
+    font-weight: bold;
+    border-bottom: #888888;
+    border-radius: 5px;
+    box-shadow:0 1rem 3rem rgba(0,0,0,.175)!important;
+}
+.hover-semi-normal:hover {
+    font-weight: bolder;
 }

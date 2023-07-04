@@ -1,6 +1,30 @@
-<div class="d-flex row justify-content-between mt-3">
+<div class="d-flex row justify-content-between mt-3 p-3 bg-white rounded" style="min-height: 25rem">
     <div class="col-3">
+        <div class="h6">
+            My markets <hr>
+        </div>
+        @foreach($categories as $category)
 
+            <div class="dropend hover-dropend mb-3">
+                <div class="category" data-bs-toggle="dropdown" aria-expanded="false">
+                    <div class="d-flex justify-content-start">
+                        <img src="{{ asset('img/user-profile.png') }}" alt="{{ $category->name }}" class="img-fluid rounded" height="24" width="24">
+                        <span class="ms-2">{{ $category->name }}</span>
+                    </div>
+                    <i class="bi-chevron-right"></i>
+                </div>
+                <div class="dropdown-menu c-d-menu">
+                    <div class="row justify-content-between m-3">
+                        @foreach($category->child as $child)
+                            <div class="col-4">
+                                <a href="#" class="small text-decoration-none text-black fw-bold mb-3">{{ $child->name }}</a>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+
+        @endforeach
     </div>
     <div class="col-6">
         <div id="carouselExampleCaptions" class="carousel slide">

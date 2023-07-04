@@ -30,3 +30,18 @@ function aos_init() {
 window.addEventListener('load', () => {
     aos_init();
 });
+
+
+$('.category').mouseenter(function(e){
+    $(this).addClass('show');
+    $(this).find('.c-d-menu').first().addClass('show');
+});
+
+$('.category').mouseleave(function(e){
+    $(this).removeClass('show');
+    $(this).find('.c-d-menu').first().removeClass('show');
+});
+
+$('.collapse-down').on('click', function () {
+    $(this).find('span.bi-chevron-down').first().css({'transform': 'rotate(-180deg)'});
+});

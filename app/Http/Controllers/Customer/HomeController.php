@@ -52,7 +52,7 @@ class HomeController extends Controller
             ];
         }
 
-        return $categories = Category::whereDoesntHave('parent')
+        $categories = Category::whereDoesntHave('parent')
             ->with('child')
             ->orderByDesc('id')
             ->get(['id', 'parent_id', 'name', 'slug']);

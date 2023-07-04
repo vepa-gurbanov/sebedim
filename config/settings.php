@@ -1,7 +1,12 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: tazes
- * Date: 7/3/2023
- * Time: 5:11 PM
- */
+
+return [
+    'ordering' => [
+        'nameAsc' => ['name', 'asc'],
+        'nameDesc' => ['name', 'desc'],
+        'priceLow' => ['price', 'asc'],
+        'priceHigh' => ['price', 'desc'],
+        'newest' => ['id', 'desc'],
+        'oldest' => ['id', 'asc'],
+    ]
+];

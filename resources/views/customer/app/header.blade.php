@@ -5,7 +5,7 @@
         </ul>
         @if(request()->routeIs(['home']))
         <div class="btn-group me-3 align-items-center">
-            <span type="button" class="small dropdown-toggle" data-bs-toggle="dropdown" data-bs-display="static">English - USD</span>
+            <span type="button" class="small dropdown-toggle" data-toggle="dropdown" data-bs-display="static">English - USD</span>
             <div class="dropdown-menu dropdown-menu-lg-end" style="border-radius: 0; min-width: 20em;">
                 <div class="mx-3">
                     <h6 class="fw-bold">Region settings</h6>
@@ -36,7 +36,7 @@
         </div>
         @endif
         <div class="btn-group me-3 align-items-center">
-            <span type="button" class="bi-person-circle dropdown-toggle" data-bs-toggle="dropdown" data-bs-display="static"> </span>
+            <span type="button" class="bi-person-circle dropdown-toggle" data-toggle="dropdown" data-bs-display="static"> </span>
             <div class="dropdown-menu dropdown-menu-lg-end" style="border-radius: 0; min-width: 20em;">
                 <div class="mx-3 d-flex justify-content-center">
                     @auth('customer_web')

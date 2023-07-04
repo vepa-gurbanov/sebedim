@@ -11,7 +11,6 @@
     <link href="{{ asset('css/bootstrap-icons/bootstrap-icons.css') }}" rel="stylesheet">
     <link href="{{ asset('css/splide.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/splide-core.min.css') }}" rel="stylesheet">
-{{--    <link href="{{ asset('css/splide/splide-sea-green.min.css') }}" rel="stylesheet">--}}
     <link href="{{ asset('css/aos.css') }}" rel="stylesheet">
     <link href="{{ asset('css/custom.css') }}" rel="stylesheet">
     <meta name="theme-color" content="#712cf9">
@@ -20,10 +19,8 @@
 <body class="bg-secondary-subtle">
 <main>
     @include('customer.app.header')
-    {{--        @include('customer.app.slider')--}}
-    <div class="container">
+    <div class="container-xxl">
         @include('customer.app.alert')
-{{--        @include('customer.app.carousel')--}}
         @yield('content')
     </div>
     @include('customer.app.footer')
