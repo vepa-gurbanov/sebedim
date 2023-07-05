@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Customer;
 
 use App\Http\Controllers\Controller;
+use App\Models\Attribute;
+use App\Models\Brand;
+use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
@@ -42,8 +45,31 @@ class ProductController extends Controller
             ->get();
 
 //        return $products;
+        $maxPrice = Product::orderByDesc('price')->first()->price;
+        $searchCategories = Category::orderBy('id')
+            ->get(['id', 'name']);
 
-        return view('customer.product.index');
+        $searchBrands = Brand::orderBy('id')
+            ->get(['id', 'name']);
+
+        $searchAttrs = Attribute::orderBy('order_by')
+            ->orderBy('id')
+            ->with('values:id,attribute_id,name', 'category:id,name')
+            ->get(['id','category_id', 'name']);
+
+//        return $searchAttrs;
+
+        $data = [
+            'f_min_price' => $f_min_price,
+            'f_max_price' => $f_max_price,
+            'maxPrice' => $maxPrice,
+            'searchCategories' => $searchCategories,
+            'searchBrands' => $searchBrands,
+            'searchAttrs' => $searchAttrs,
+        ];
+
+        return view('customer.product.index')
+            ->with($data);
     }
 
 

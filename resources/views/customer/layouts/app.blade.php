@@ -19,7 +19,7 @@
 <body class="bg-secondary-subtle">
 <main>
     @include('customer.app.header')
-    <div class="container-xxl">
+    <div class="mx-3">
         @include('customer.app.alert')
         @yield('content')
     </div>

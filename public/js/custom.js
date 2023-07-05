@@ -15,6 +15,11 @@ $(document).ready(function (e) {
         } ).mount();
     });
 
+    // Custom Scroll
+    if (!$.browser.webkit) {
+        $('#scrollWrapper').html('<p>Sorry! Non webkit users. :(</p>');
+    }
+
 });
 
 
@@ -27,9 +32,9 @@ function aos_init() {
     });
 }
 
-window.addEventListener('load', () => {
-    aos_init();
-});
+// window.addEventListener('load', () => {
+//     aos_init();
+// });
 
 
 $('.category').mouseenter(function(e){
@@ -42,6 +47,27 @@ $('.category').mouseleave(function(e){
     $(this).find('.c-d-menu').first().removeClass('show');
 });
 
-$('.collapse-down').on('click', function () {
-    $(this).find('span.bi-chevron-down').first().css({'transform': 'rotate(-180deg)'});
+
+$('.scrollbar').each(function () {
+    var search = 'search_' + $(this).attr('content');
+    var scroll = $(this).attr('content') + 'Scroll';
+
+    $('#' + search).keyup(function(){
+
+        // Retrieve the input field text and reset the count to zero
+        var filter = $(this).val();
+        // Loop through the comment list
+        $("div.scrollbar#" + scroll + " div.form-check").each(function(){
+
+            // If the list item does not contain the text phrase fade it out
+            if ($(this).text().search(new RegExp(filter, "i")) < 0) {
+                $(this).fadeOut();
+
+                // Show the list item if the phrase matches and increase the count by 1
+            } else {
+                $(this).show();
+            }
+        });
+
+    });
 });
