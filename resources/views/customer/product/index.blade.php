@@ -1,4 +1,10 @@
 @extends('customer.layouts.app')
+@section('breadcrumb')
+    <li class="breadcrumb-item">
+        <a class="" href="#">Library</a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page">Data</li>
+@endsection
 @section('content')
     <div class="d-flex justify-content-between">
         <div class="col-4 col-lg-3 col-xxl-2 my-3" data-bs-spy="scroll" data-bs-target="#scroll">

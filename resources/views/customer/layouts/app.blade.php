@@ -19,7 +19,9 @@
 <body class="bg-secondary-subtle">
 <main>
     @include('customer.app.header')
-    @include('customer.app.breadcrumb')
+    @if(!request()->routeIs('home') && !request()->routeIs('admin.*'))
+        @include('customer.app.breadcrumb')
+    @endif
     <div class="mx-3">
         @include('customer.app.alert')
         @yield('content')
