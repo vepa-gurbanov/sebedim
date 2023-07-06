@@ -7,7 +7,7 @@
 @endsection
 @section('content')
     <div class="d-flex justify-content-between">
-        <div class="col-4 col-lg-3 col-xxl-2 my-3" data-bs-spy="scroll" data-bs-target="#scroll">
+        <div class="col-4 col-lg-3 col-xxl-2" data-bs-spy="scroll" data-bs-target="#scroll">
 
             <!-- Start filter scroll -->
             <div class="scrollbar px-2" id="scrollbar">
@@ -76,50 +76,82 @@
 
             @foreach($searchAttrs as $attr)
                 <!-- Start filter/{{ $attr->category->name . '/' . $attr->name }} scroll -->
-                <?php $attrSlugged = Illuminate\Support\Str::slug($attr->category->name . '_' . $attr->name, '_') ?>
-                <div class="bg-white border rounded p-2 {{ ! $loop->last ? 'mb-3' : '' }} small">
-                    <div class="d-flex justify-content-between cursor-pointer" data-bs-toggle="collapse" data-bs-target="#collapse{{ $attrSlugged }}" aria-expanded="false" aria-controls="collapse{{ $attrSlugged }}">
-                        <span><b>{{ $attr->category->name }}</b>{{ '/' . $attr->name }}</span>
-                        <span class="bi-caret-down-fill"></span>
-                    </div>
-                    <div class="collapse show" id="collapse{{ $attrSlugged }}">
-                        <div class="mt-2">
-                            <input type="text" class="form-control form-control-sm bg-light-subtle" id="search_{{ $attrSlugged }}" placeholder="..." value="{{ old('search_' . $attrSlugged) }}">
+                    <?php $attrSlugged = Illuminate\Support\Str::slug($attr->category->name . '_' . $attr->name, '_') ?>
+                    <div class="bg-white border rounded p-2 {{ ! $loop->last ? 'mb-3' : '' }} small">
+                        <div class="d-flex justify-content-between cursor-pointer" data-bs-toggle="collapse" data-bs-target="#collapse{{ $attrSlugged }}" aria-expanded="false" aria-controls="collapse{{ $attrSlugged }}">
+                            <span><b>{{ $attr->category->name }}</b>{{ '/' . $attr->name }}</span>
+                            <span class="bi-caret-down-fill"></span>
                         </div>
-                        <div class="mt-3 scrollbar" id="{{ $attrSlugged }}Scroll" content="{{ $attrSlugged }}">
-                            @foreach($attr->values as $value)
-                                <div class="form-check ms-2">
-                                    <input class="form-check-input" type="checkbox" value="{{ $value->id }}" id="check-{{ $attr->id . '-' . $value->id }}">
-                                    <label class="form-check-label" for="check-{{ $attr->id . '-' . $value->id }}">
-                                        {{ $value->name }}
-                                    </label>
-                                </div>
-                            @endforeach
+                        <div class="collapse show" id="collapse{{ $attrSlugged }}">
+                            <div class="mt-2">
+                                <input type="text" class="form-control form-control-sm bg-light-subtle" id="search_{{ $attrSlugged }}" placeholder="..." value="{{ old('search_' . $attrSlugged) }}">
+                            </div>
+                            <div class="mt-3 scrollbar" id="{{ $attrSlugged }}Scroll" content="{{ $attrSlugged }}">
+                                @foreach($attr->values as $value)
+                                    <div class="form-check ms-2">
+                                        <input class="form-check-input" type="checkbox" value="{{ $value->id }}" id="check-{{ $attr->id . '-' . $value->id }}">
+                                        <label class="form-check-label" for="check-{{ $attr->id . '-' . $value->id }}">
+                                            {{ $value->name }}
+                                        </label>
+                                    </div>
+                                @endforeach
+                            </div>
                         </div>
-                    </div>
-                </div> <!-- End filter/{{ $attr->category->name . '/' . $attr->name }} scroll -->
-            @endforeach
+                    </div> <!-- End filter/{{ $attr->category->name . '/' . $attr->name }} scroll -->
+                @endforeach
 
             </div> <!-- End filter scroll -->
         </div>
 
-        <div class="col-auto my-2">
-            <form action="{{ route('products.index') }}" class="row justify-content-between" method="GET" id="productFilter">
-
-                <div class="col-auto">
-                    <select class="form-select form-select-sm" name="ordering" id="ordering" size="1" onchange="$('form#productFilter').submit();">
-                        <option value>@lang('app.relevance')</option>
-                        @foreach(array_keys($orderConfig) as $ordering)
-                            <option value="{{ $ordering }}" {{ $ordering == $f_order ? 'selected' : '' }}>
+        <div class="col-10 col-lg-11 col-xxl-12">
+            <div class="border-bottom pb-2 ms-2" style="--bs-border-color: orange!important">
+                <div class="row justify-content-around">
+                    <form action="{{ route('products.index') }}" method="GET" id="productFilter">
+                    </form>
+                    @foreach(array_keys($orderConfig) as $ordering)
+                        <div class="col-auto product-border ms-2 {{ $ordering == $f_order ? 'product_link_is_active' : '' }}">
+                            <a href="{{ route('products.index', ['ordering' => $ordering]) }}"
+                               class="product_link {{ $ordering == $f_order ? 'fw-bold' : '' }}"
+                               onclick="$('form#productFilter').submit();">
                                 @lang('app.' . $ordering)
-                            </option>
-                        @endforeach
-                    </select>
+                            </a>
+                        </div>
+                    @endforeach
+
                 </div>
-
-            </form>
-
-            <hr>
+            </div>
+            <div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-5 row-cols-xl-6 g-4">
+                @foreach($products as $product)
+                    <div class="col">
+                        <div class="overflow-hidden rounded shadow-sm hover-effect position-relative">
+                            @if($product->isNew())
+                                <span class="position-absolute top-0 start-0 m-1 z-1">
+                                    <span class="badge bg-success-subtle text-success-emphasis">Täze</span>
+                                </span>
+                            @endif
+                            <span class="position-absolute bottom-0 end-0 m-1 z-1">
+                                <a class="btn btn-light btn-sm" data-fancybox="gallery" href="/storage/pr/EuJtAZR1UP.jpg" data-caption="Человек-бензопила. Книга 4. Во сне. Настоящая жесть">
+                                    <i class="bi-zoom-in"></i>
+                                </a>
+                            </span>
+                            <a href="https://gnbookstore.com.tm/product/celovek-benzopila-kniga-4-vo-sne-nastoiashhaia-zest-3596">
+                                <img src="/storage/sm/pr/EuJtAZR1UP.jpg" data-src="/storage/sm/pr/EuJtAZR1UP.jpg" alt="Человек-бензопила. Книга 4. Во сне. Настоящая жесть" class="temp-image img-fluid">
+                            </a>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center mt-2">
+                            <div class="h6 text-primary mb-0">
+                                555.00
+                                <small>TMT</small>
+                            </div>
+                            <button type="button" class="btn btn-outline-danger btn-sm add-to-cart" value="3596">
+                                <i class="bi-basket"></i> Goş        </button>
+                        </div>
+                        <a href="https://gnbookstore.com.tm/product/celovek-benzopila-kniga-4-vo-sne-nastoiashhaia-zest-3596" class="small link-dark text-decoration-none">
+                            Человек-бензопила. Книга 4. Во сне. Настоящая жесть
+                        </a>
+                    </div>
+                @endforeach
+            </div>
         </div>
     </div>
 @endsection

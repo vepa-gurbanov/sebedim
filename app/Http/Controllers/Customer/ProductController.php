@@ -46,7 +46,7 @@ class ProductController extends Controller
             })
             ->get();
 
-//        return $products;
+        return $products;
         $maxPrice = Product::orderByDesc('price')->first()->price;
         $searchCategories = Category::orderBy('id')
             ->get(['id', 'name']);

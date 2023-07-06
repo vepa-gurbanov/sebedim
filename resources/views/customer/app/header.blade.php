@@ -1,11 +1,11 @@
-<nav class="border-bottom" style="font-family: Calibri">
+<div class="border-bottom" style="font-family: Calibri">
     <div class="d-flex flex-wrap">
         <ul class="nav me-auto">
             <li class="nav-item"><a href="mailto:tazesalgy@gmail.com" class="nav-link link-body-emphasis px-2 active" aria-current="page"><i class="bi-envelope-fill"></i> tazesalgy@gmail.com</a></li>
         </ul>
         @if(request()->routeIs(['home']))
         <div class="btn-group me-3 align-items-center">
-            <span type="button" class="small dropdown-toggle" data-toggle="dropdown" data-bs-display="static">English - USD</span>
+            <span type="button" class="small dropdown-toggle" data-bs-toggle="dropdown" data-bs-display="static">English - USD</span>
             <div class="dropdown-menu dropdown-menu-lg-end" style="border-radius: 0; min-width: 20em;">
                 <div class="mx-3">
                     <h6 class="fw-bold">Region settings</h6>
@@ -36,7 +36,7 @@
         </div>
         @endif
         <div class="btn-group me-3 align-items-center">
-            <span type="button" class="bi-person-circle dropdown-toggle" data-toggle="dropdown" data-bs-display="static"> </span>
+            <span type="button" class="bi-person-circle dropdown-toggle" data-bs-toggle="dropdown" data-bs-display="static"> </span>
             <div class="dropdown-menu dropdown-menu-lg-end" style="border-radius: 0; min-width: 20em;">
                 <div class="mx-3 d-flex justify-content-center">
                     @auth('customer_web')
@@ -64,7 +64,7 @@
             </div>
         </div>
     </div>
-</nav>
+</div>
 <header data-bs-theme="dark">
     <nav class="navbar navbar-dark bg-dark">
         <div class="container-fluid d-flex row">

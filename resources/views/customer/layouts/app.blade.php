@@ -22,7 +22,7 @@
     @if(!request()->routeIs('home') && !request()->routeIs('admin.*'))
         @include('customer.app.breadcrumb')
     @endif
-    <div class="mx-3">
+    <div class="container mx-3">
         @include('customer.app.alert')
         @yield('content')
     </div>

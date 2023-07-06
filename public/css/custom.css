@@ -93,3 +93,25 @@ nav {
     max-width: 180px;
 
 }
+.product_link {
+    text-decoration: none;
+    color: #000;
+}
+.product-border {
+    border: 1px dashed #8b8b8b;
+    border-radius:5px !important
+}
+.product_link_is_active {
+    /*text-emphasis: #fca103;*/
+    border: 1px dashed #fca103;
+}
+.font-inter {
+    font-family: 'Inter', sans-serif;
+}
+.hover-effect img {
+    transition: 0.1s;
+}
+
+.hover-effect:hover img {
+    transform: scale(1.1);
+}
