@@ -22,17 +22,19 @@ class ProductController extends Controller
                 'min:f_min_price',
                 'max:' . Product::orderByDesc('price')->first()->price,
                 'between:f_min_price,' . Product::orderByDesc('price')->first()->price,
-                'ordering' => 'nullable|string|in:' . implode(',', array_keys($orderConfig)),
             ],
+            'ordering' => ['nullable', 'string', 'in:' . implode(',', array_keys($orderConfig)),],
+
         ]);
 
 
         $q = isset($validation['q']) ?: null;
         $f_min_price = isset($validation['f_min_price']) ? Product::orderByDesc('price')->first()->price : null;
         $f_max_price = isset($validation['f_max_price']) ? Product::orderByAsc('price')->first()->price : null;
-        $f_order = isset($validation['ordering']) ?: null;
+        $f_order = isset($validation['ordering']) ? $validation['ordering'] : null;
 
         $order = isset($f_order) ?  $orderConfig[$f_order] : null;
+
         $products = Product::orderByDesc('id')
             ->when($f_order, function ($query) use ($f_min_price, $f_max_price) {
                 $query->whereBetween('price', [$f_min_price, $f_max_price]);
@@ -62,10 +64,13 @@ class ProductController extends Controller
         $data = [
             'f_min_price' => $f_min_price,
             'f_max_price' => $f_max_price,
+            'f_order' => $f_order,
             'maxPrice' => $maxPrice,
             'searchCategories' => $searchCategories,
             'searchBrands' => $searchBrands,
             'searchAttrs' => $searchAttrs,
+            'orderConfig' => $orderConfig,
+            'products' => $products,
         ];
 
         return view('customer.product.index')

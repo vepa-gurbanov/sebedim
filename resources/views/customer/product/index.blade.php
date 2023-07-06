@@ -97,11 +97,23 @@
             </div> <!-- End filter scroll -->
         </div>
 
-        <div class="col-auto">
-            <div class="d-flex justify-content-between">
+        <div class="col-auto my-2">
+            <form action="{{ route('products.index') }}" class="row justify-content-between" method="GET" id="productFilter">
 
-            </div>
+                <div class="col-auto">
+                    <select class="form-select form-select-sm" name="ordering" id="ordering" size="1" onchange="$('form#productFilter').submit();">
+                        <option value>@lang('app.relevance')</option>
+                        @foreach(array_keys($orderConfig) as $ordering)
+                            <option value="{{ $ordering }}" {{ $ordering == $f_order ? 'selected' : '' }}>
+                                @lang('app.' . $ordering)
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
+            </form>
+
+            <hr>
         </div>
-
     </div>
 @endsection
