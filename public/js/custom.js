@@ -32,9 +32,9 @@ function aos_init() {
     });
 }
 
-// window.addEventListener('load', () => {
-//     aos_init();
-// });
+window.addEventListener('load', () => {
+    aos_init();
+});
 
 
 $('.category').mouseenter(function(e){
