@@ -30,15 +30,22 @@
 
                 </div>
             </div>
-            <div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-5 g-4 m-2">
+            <div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-5 g-3 m-2">
                 @foreach($products as $product)
                     <div class="col">
-                        <div class="overflow-hidden shadow-sm hover-effect position-relative">
+                    <div class="shadow p-2 product-shadow">
+                        <div class="overflow-hidden hover-effect position-relative">
+{{--                            @if($product->isDiscount())--}}
+                                <span class="position-absolute top-0 start-0 m-1 mt-auto ms-0 z-1">
+                                    <span class="badge bg-danger-subtle text-danger-emphasis" style="border-radius: 0 5px 5px 0;">Offer</span>
+                                </span>
+{{--                            @endif--}}
                             @if($product->isNew())
-                                <span class="position-absolute top-0 start-0 m-1 ms-0 z-1">
-                                    <span class="badge bg-success-subtle text-success-emphasis" style="border-radius: 0 5px 5px 0;">New</span>
+                                <span class="position-absolute top-0 start-0 m-1 mt-4 ms-0 z-1">
+                                    <span class="badge bg-success-subtle text-success-emphasis" style="border-radius: 0 5px 5px 0;">New | Offer</span>
                                 </span>
                             @endif
+
                             <span class="position-absolute bottom-0 end-0 m-1 z-1">
                                 <a class="btn btn-light btn-sm" data-fancybox="gallery" href="{{ $product->image() }}" data-caption="{{ $product->name }}">
                                     <i class="bi-zoom-in"></i>
@@ -49,20 +56,25 @@
                             </a>
                         </div>
                         <div class="d-flex justify-content-between align-items-center mt-2">
-                            <div class="h6 text-primary mb-0">
-                                {{ $product->price }}
-                                <small>TMT</small>
+                            <div class="h6 mb-0">
+                                <span class="badge bg-danger text-white" style="border-radius: 0; margin-left: -.5rem!important"> -20% off</span>
+                                {{ number_format($product->price, '2', '.', ',') }}
+                                <span class="small-sm">
+{{--                                    @if($product->isDiscount())--}}/
+                                        <span class="cancel-price">140.00</span>
+{{--                                    @endif--}}
+                                    TMT
+                                </span>
                             </div>
-                            <button type="button" class="btn btn-outline-danger btn-sm add-to-cart" value="3596">
-                                <i class="bi-basket"></i> Goş        </button>
                         </div>
                         <a href="https://gnbookstore.com.tm/product/celovek-benzopila-kniga-4-vo-sne-nastoiashhaia-zest-3596" class="small link-dark text-decoration-none">
                             Человек-бензопила. Книга 4. Во сне. Настоящая жесть
                         </a>
                     </div>
+                    </div>
                 @endforeach
             </div>
-            <div class="mb-3">
+            <div class="my-3">
                 {{ $products->links() }}
             </div>
         </div>
@@ -128,3 +140,4 @@
 {{--</script>--}}
 {{--</body>--}}
 {{--</html>--}}
+

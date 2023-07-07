@@ -144,3 +144,18 @@ nav {
     --bs-btn-disabled-bg:transparent;
     --bs-btn-disabled-border-color:#1px dashed #8b8b8b;
 }
+.product-shadow:hover {
+    -webkit-box-shadow: 0 0 7px 5px #f9eb49 !important;
+    -moz-box-shadow: 0 0 7px 5px #f9eb49 !important;
+    box-shadow: 0 0 7px 5px #f9eb49 !important;
+}
+.small-sm {
+    font-size: .7rem;
+}
+.cancel-price {
+    font-size: 13px;
+    font-weight: normal;
+    color: #808080;
+    text-decoration: line-through;
+    text-decoration-color: #f00;
+}

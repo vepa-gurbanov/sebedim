@@ -57,7 +57,8 @@ $('.scrollbar').each(function () {
         // Retrieve the input field text and reset the count to zero
         var filter = $(this).val();
         // Loop through the comment list
-        $("div.scrollbar#" + scroll + " div.form-check").each(function(){
+        $("div.scrollbar#" + scroll + " div#filterContent").each(function(){
+
 
             // If the list item does not contain the text phrase fade it out
             if ($(this).text().search(new RegExp(filter, "i")) < 0) {

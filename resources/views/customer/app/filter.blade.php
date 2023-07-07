@@ -31,7 +31,7 @@
                 </div>
                 <div class="mt-3 scrollbar" id="categoryScroll" content="category">
                     @foreach($searchCategories as $category)
-                        <div class="form-check ms-2 small">
+                        <div class="form-check ms-2 small" id="filterContent">
                             <input class="form-check-input" type="checkbox" name="c[]" value="{{ $category->id }}" id="checkCategory-{{ $category->id }}" {{ $f_categories->contains($category->id) ? 'checked' : '' }}>
                             <label class="form-check-label" for="checkCategory-{{ $category->id }}">
                                 {{ $category->name }}
@@ -54,7 +54,7 @@
                 </div>
                 <div class="mt-3 scrollbar" id="brandScroll" content="brand">
                     @foreach($searchBrands as $brand)
-                        <div class="form-check ms-2 small">
+                        <div class="form-check ms-2 small" id="filterContent">
                             <input class="form-check-input" type="checkbox" name="b[]" value="{{ $brand->id }}" id="checkBrand-{{ $brand->id }}" {{ $f_brands->contains($brand->id) ? 'checked' : '' }}>
                             <label class="form-check-label" for="checkBrand-{{ $brand->id }}">
                                 {{ $brand->name }}
@@ -65,9 +65,9 @@
             </div>
         </div> <!-- End filter/Brand scroll -->
 
-    @foreach($searchAttrs as $attr)
-        <!-- Start filter/{{ $attr->category->name . '/' . $attr->name }} scroll -->
-            <?php $attrSlugged = Illuminate\Support\Str::slug($attr->category->name . '_' . $attr->name, '_') ?>
+        @foreach($searchAttrs as $attr)
+            <!-- Start filter/{{ $attr->category->name . '/' . $attr->name }} scroll -->
+                <?php $attrSlugged = Illuminate\Support\Str::slug($attr->category->name . '_' . $attr->name, '_') ?>
             <div class="bg-white border rounded p-2 {{ ! $loop->last ? 'mb-3' : '' }} small">
                 <div class="d-flex justify-content-between cursor-pointer" data-bs-toggle="collapse" data-bs-target="#collapse{{ $attrSlugged }}" aria-expanded="false" aria-controls="collapse{{ $attrSlugged }}">
                     <span><b>{{ $attr->category->name }}</b>{{ '/' . $attr->name }}</span>
@@ -80,10 +80,10 @@
                         </div>
                     @endif
                     <div class="mt-3 scrollbar" id="{{ $attrSlugged }}Scroll" content="{{ $attrSlugged }}">
-                        @foreach($attr->values as $value)
+                            @foreach($attr->values as $value)
                             <div class="d-flex justify-content-between">
 
-                                <div class="col-auto ms-2">
+                                <div class="col-auto ms-2" id="filterContent">
                                     <input class="form-check-input" type="checkbox" name="v[{{ $attr->id }}][]" value="{{ $value->id }}" id="check-{{ $attr->id . '-' . $value->id }}" {{ $f_values->contains($value->id) ? 'checked' : '' }}>
                                     <label class="form-check-label" for="check-{{ $attr->id . '-' . $value->id }}">
                                         @if(!in_array(strtolower($attr->name), ['color', 'colour']))
@@ -96,8 +96,8 @@
                                         @endif
                                     </label>
                                 </div>
-                            </div>
-                        @endforeach
+                                </div>
+                            @endforeach
                     </div>
                 </div>
             </div> <!-- End filter/{{ $attr->category->name . '/' . $attr->name }} scroll -->
