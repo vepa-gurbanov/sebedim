@@ -15,38 +15,62 @@ class ProductController extends Controller
         $orderConfig = config()->get('settings.ordering');
         $validation = $request->validate([
             'q' => ['nullable', 'string', 'max:50'],
-            'f_min_price' => ['nullable', 'integer', 'min:0', 'max:f_max_price', 'between:0,f_max_price'],
-            'f_max_price' => [
-                'nullable',
-                'integer',
-                'min:f_min_price',
-                'max:' . Product::orderByDesc('price')->first()->price,
-                'between:f_min_price,' . Product::orderByDesc('price')->first()->price,
-            ],
+            'f_min_price' => ['nullable', 'integer', 'min:0',],
+            'f_max_price' => ['nullable', 'integer', 'max:' . Product::orderByDesc('price')->first()->price,],
             'ordering' => ['nullable', 'string', 'in:' . implode(',', array_keys($orderConfig)),],
-
+            'b' => ['nullable','array'], // brands => b
+            'b.*' => ['nullable','integer','min:1','distinct'], // brands[] => b.*
+            'c' => ['nullable','array'], // categories => c
+            'c.*' => ['nullable','integer','min:1','distinct'], // categories[] => c.*
+            'v' => ['nullable', 'array'], // values => v
+            'v.*' => ['nullable', 'array'], // values[] => v.*
+            'v.*.*' => ['nullable', 'integer', 'min:1', 'distinct'], // values[][] => v.*.*
         ]);
 
 
         $q = isset($validation['q']) ?: null;
-        $f_min_price = isset($validation['f_min_price']) ? Product::orderByDesc('price')->first()->price : null;
-        $f_max_price = isset($validation['f_max_price']) ? Product::orderByAsc('price')->first()->price : null;
+        $f_min_price = isset($validation['f_min_price']) ? $validation['f_min_price'] : null;
+        $f_max_price = isset($validation['f_max_price']) ? $validation['f_max_price'] : null;
         $f_order = isset($validation['ordering']) ? $validation['ordering'] : null;
+        $f_brands = $request->has('b') ? $request->b : [];
+        $f_categories = $request->has('c') ? $request->c : [];
+        $f_values = $request->has('v') ? $request->v : [];
 
+        $price = [
+            'min' => isset($f_min_price) ? $f_min_price : Product::orderByDesc('price')->first()->price,
+            'max' => isset($f_max_price) ? $f_max_price : Product::orderBy('price')->first()->price,
+        ];
+//        return $price;
         $order = isset($f_order) ?  $orderConfig[$f_order] : null;
 
-        $products = Product::orderByDesc('id')
-            ->when($f_order, function ($query) use ($f_min_price, $f_max_price) {
-                $query->whereBetween('price', [$f_min_price, $f_max_price]);
+        $products = Product::when(($f_min_price or $f_max_price), function ($query) use ($price) {
+                $query->whereBetween('price', [$price['min'], $price['max']]);
             })
             ->when($order, function ($query, $order) {
                 return $query->orderBy($order[0], $order[1]);
             }, function ($query) {
                 return $query->orderByDesc('id');
             })
-            ->get();
+            ->when($f_brands, function ($query, $f_brands) {
+                return $query->whereIn('brand_id', $f_brands);
+            })
+            ->when($f_categories, function ($query, $f_categories) {
+                return $query->whereIn('category_id', $f_categories);
+            })
+            ->when($f_values, function ($query, $f_values) {
+                return $query->where(function ($query1) use ($f_values) {
+                    foreach ($f_values as $f_value) {
+                        $query1->whereHas('attributeValues', function ($query2) use ($f_value) {
+                            $query2->whereIn('id', $f_value);
+                        });
+                    }
+                });
+            })
+            ->orderByDesc('id')
+            ->paginate(18)
+            ->withQueryString();
 
-        return $products;
+//        return $products;
         $maxPrice = Product::orderByDesc('price')->first()->price;
         $searchCategories = Category::orderBy('id')
             ->get(['id', 'name']);
@@ -59,12 +83,15 @@ class ProductController extends Controller
             ->with('values:id,attribute_id,name', 'category:id,name')
             ->get(['id','category_id', 'name']);
 
-//        return $searchAttrs;
+//        return $f_categories;
 
         $data = [
             'f_min_price' => $f_min_price,
             'f_max_price' => $f_max_price,
             'f_order' => $f_order,
+            'f_categories' => collect($f_categories),
+            'f_brands' => collect($f_brands),
+            'f_values' => collect($f_values)->collapse(),
             'maxPrice' => $maxPrice,
             'searchCategories' => $searchCategories,
             'searchBrands' => $searchBrands,
