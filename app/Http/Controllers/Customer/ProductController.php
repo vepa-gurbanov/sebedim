@@ -67,6 +67,7 @@ class ProductController extends Controller
                 });
             })
             ->orderByDesc('id')
+            ->with('category', 'brand')
             ->paginate(18)
             ->withQueryString();
 

@@ -33,44 +33,49 @@
             <div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-5 g-3 m-2">
                 @foreach($products as $product)
                     <div class="col">
-                    <div class="shadow p-2 product-shadow">
-                        <div class="overflow-hidden hover-effect position-relative">
-{{--                            @if($product->isDiscount())--}}
+                        <div class="shadow p-2 product-shadow h-100">
+                            <div class="overflow-hidden hover-effect position-relative">
+                                {{--                            @if($product->isDiscount())--}}
                                 <span class="position-absolute top-0 start-0 m-1 mt-auto ms-0 z-1">
                                     <span class="badge bg-danger-subtle text-danger-emphasis" style="border-radius: 0 5px 5px 0;">Offer</span>
                                 </span>
-{{--                            @endif--}}
-                            @if($product->isNew())
-                                <span class="position-absolute top-0 start-0 m-1 mt-4 ms-0 z-1">
+                                {{--                            @endif--}}
+                                @if($product->isNew())
+                                    <span class="position-absolute top-0 start-0 m-1 mt-4 ms-0 z-1">
                                     <span class="badge bg-success-subtle text-success-emphasis" style="border-radius: 0 5px 5px 0;">New | Offer</span>
                                 </span>
-                            @endif
+                                @endif
 
-                            <span class="position-absolute bottom-0 end-0 m-1 z-1">
+                                <span class="position-absolute bottom-0 end-0 m-1 z-1">
                                 <a class="btn btn-light btn-sm" data-fancybox="gallery" href="{{ $product->image() }}" data-caption="{{ $product->name }}">
                                     <i class="bi-zoom-in"></i>
                                 </a>
                             </span>
-                            <a href="{{ route('products.show', $product->slug) }}">
-                                <img src="{{ $product->image() }}" data-src="{{ $product->image() }}" alt="{{ $product->name }}" class="temp-image img-fluid">
-                            </a>
-                        </div>
-                        <div class="d-flex justify-content-between align-items-center mt-2">
-                            <div class="h6 mb-0">
-                                <span class="badge bg-danger text-white" style="border-radius: 0; margin-left: -.5rem!important"> -20% off</span>
-                                {{ number_format($product->price, '2', '.', ',') }}
-                                <span class="small-sm">
-{{--                                    @if($product->isDiscount())--}}/
-                                        <span class="cancel-price">140.00</span>
-{{--                                    @endif--}}
-                                    TMT
-                                </span>
+                                <a href="{{ route('products.show', $product->slug) }}">
+                                    <img src="{{ $product->image() }}" data-src="{{ $product->image() }}" alt="{{ $product->name }}" class="temp-image img-fluid">
+                                </a>
                             </div>
+                            <div class="d-flex justify-content-between align-items-center mt-2">
+                                @if($product->isDiscount())
+                                    <div class="h6 mb-0">
+                                        <span class="badge bg-danger text-white" style="border-radius: 0; margin-left: -.5rem!important"> -20% off</span>
+                                        {{ number_format($product->price, '2', '.', ',') }} <span class="small-sm">TMT</span>
+                                        <span class="small-sm">
+                                            <span class="cancel-price">140.00</span>
+                                            TMT
+                                        </span>
+                                    </div>
+                                @else
+                                    <div class="h6 mb-0">
+                                        {{ number_format($product->price, '2', '.', ',') }} <span class="small-sm text-secondary">TMT</span>
+                                    </div>
+                                @endif
+                            </div>
+                            <a href="{{ route('products.show', $product->slug) }}" class="small link-dark text-decoration-none">
+                                {{ $product->full_name }}
+                            </a>
+                            <button class="btn btn-primary btn-sm w-100" style="--bs-btn-border-radius: 0"><i class="bi-basket-fill"></i> Add to cart</button>
                         </div>
-                        <a href="https://gnbookstore.com.tm/product/celovek-benzopila-kniga-4-vo-sne-nastoiashhaia-zest-3596" class="small link-dark text-decoration-none">
-                            Человек-бензопила. Книга 4. Во сне. Настоящая жесть
-                        </a>
-                    </div>
                     </div>
                 @endforeach
             </div>
